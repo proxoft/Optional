@@ -8,7 +8,7 @@
         <LangVersion>Latest</LangVersion>
         <Authors>Proxoft s.r.o.</Authors>
         <Copyright>www.proxoft.sk</Copyright>
-        <Product>www.znaleckyportal.sk</Product>
+        <Product>Optional</Product>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>Proxoft.$(MSBuildProjectName)</PackageId>
         <Product>Optional</Product>
