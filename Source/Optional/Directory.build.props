@@ -1,0 +1,20 @@
+﻿<Project>
+    <PropertyGroup>
+        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+        <AssemblyName>Proxoft.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>Proxoft.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>Latest</LangVersion>
+        <Authors>Proxoft s.r.o.</Authors>
+        <Copyright>www.proxoft.sk</Copyright>
+        <Product>www.znaleckyportal.sk</Product>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>Proxoft.$(MSBuildProjectName)</PackageId>
+        <Product>Optional</Product>
+        <RepositoryUrl>https://github.com/proxoft/Optional.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/proxoft/Optional</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Version>0.0.1</Version>
+    </PropertyGroup>
+</Project>
