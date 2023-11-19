@@ -33,6 +33,38 @@ public static class OptionOperatorsAsync
             .Unwrap();
     }
 
+    public static Task<Option<NT>> MapOption<T, NT>(
+        this Option<T> option,
+        Func<T, Task<Option<NT>>> map
+        )
+    {
+        return Task.FromResult(option)
+            .MapOption(map);
+    }
+
+    public static Task<Option<NT>> MapOption<T, NT>(
+        this Task<Option<T>> option,
+        Func<T, Option<NT>> map
+        )
+    {
+        return option
+            .ContinueWith(t => t.Result.MapOption(map));
+    }
+
+    public static Task<Option<NT>> MapOption<T, NT>(
+        this Task<Option<T>> option,
+        Func<T, Task<Option<NT>>> map
+        )
+    {
+        return option
+            .ContinueWith(
+                t => t.Result is Some<T> s
+                    ? map(s)
+                    : Task.FromResult<Option<NT>>(None.Instance)
+            )
+            .Unwrap();
+    }
+
     public static Task<T> Reduce<T>(
         this Task<Option<T>> option,
         Func<T> ifNone)
