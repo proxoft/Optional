@@ -40,6 +40,14 @@ public static class OptionOperators
             : None<T>.Instance;
     }
 
+    public static Option<T> WhenNotNull<T>(this T? value)
+        where T : struct
+    {
+        return value is not null
+            ? new Some<T>(value.Value)
+            : None<T>.Instance;
+    }
+
     public static T Reduce<T>(
         this Option<T> option,
         Func<T> ifNone)

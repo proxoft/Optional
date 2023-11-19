@@ -7,6 +7,17 @@ public class WhenTest
     }
 
     [Fact]
+    public void GivenNullToWhenNotNull1()
+    {
+        int? value = null;
+        Option<int> option = value.WhenNotNull();
+
+        option
+            .Should()
+            .BeOfType<None<int>>();
+    }
+
+    [Fact]
     public void GivenNullToWhenNotNull()
     {
         Foo? value = null;
