@@ -15,9 +15,10 @@ public static class EitherOperators
         this Either<L, R> either,
         Func<R, NR> map)
     {
-        return either is Right<L, R> r
-            ? new Right<L, NR>(map(r))
-            : new Left<L, NR>((Left<L, R>)either);
+        return either.Map(
+            right: map,
+            left: l => l
+        );
     }
 
     /// <summary>
@@ -56,7 +57,7 @@ public static class EitherOperators
     {
         return either is Right<L, R> r
             ? map(r)
-            : new Left<L, NR>((Left<L, R>)either);
+            : either.SwapRightTypeOnLeftInstance<L, R, NR>();
     }
 
     /// <summary>
@@ -169,5 +170,10 @@ public static class EitherOperators
         return either is Right<L, R> r
            ? right(r)
            : left((Left<L, R>)either);
+    }
+
+    internal static Either<L, NR> SwapRightTypeOnLeftInstance<L, R, NR>(this Either<L, R> left)
+    {
+        return new Left<L, NR>((Left<L, R>)left);
     }
 }
