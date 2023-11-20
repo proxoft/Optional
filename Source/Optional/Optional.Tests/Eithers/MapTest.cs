@@ -1,4 +1,4 @@
-﻿namespace Proxoft.Optional.Tests;
+﻿namespace Proxoft.Optional.Tests.Eithers;
 
 public class MapTest
 {
@@ -50,11 +50,11 @@ public class MapTest
     [Fact]
     public void MapToNewLeftWhenRight()
     {
-       var x = _right
-            .Map(
-                r => r,
-                l => l.ToString()
-            );
+        var x = _right
+             .Map(
+                 r => r,
+                 l => l.ToString()
+             );
 
         x.Should()
          .BeOfType<Right<string, int>>();

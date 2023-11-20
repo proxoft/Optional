@@ -1,4 +1,4 @@
-﻿namespace Proxoft.Optional.Tests;
+﻿namespace Proxoft.Optional.Tests.Eithers;
 
 public class ReduceAsyncTest
 {
@@ -36,7 +36,7 @@ public class ReduceAsyncTest
     {
         int r = await Task.FromResult(_right)
             .Reduce(l => (int)l);
-            
+
         r.Should().Be(10);
     }
 

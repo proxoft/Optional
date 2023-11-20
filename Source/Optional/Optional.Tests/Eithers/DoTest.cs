@@ -1,4 +1,4 @@
-﻿namespace Proxoft.Optional.Tests;
+﻿namespace Proxoft.Optional.Tests.Eithers;
 
 public class DoTest
 {
