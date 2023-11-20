@@ -24,6 +24,4 @@ public sealed class None<T> : Option<T>
 public sealed class None
 {
     public static readonly None Instance = new();
-
-    
 }
