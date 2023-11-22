@@ -7,9 +7,7 @@ public static class OptionAdaptersAsync
         L ifNone)
     {
         return option
-            .ContinueWith(
-                o => o.Result.Either(ifNone)
-            );
+            .Either(ifNone: () => Task.FromResult<Either<L,R>>(ifNone));
     }
 
     public static Task<Either<L, R>> Either<L, R>(
@@ -25,26 +23,22 @@ public static class OptionAdaptersAsync
         Func<Task<Either<L, R>>> ifNone)
     {
         return option
-            .ContinueWith(ot =>
-            {
-                return ot.Result
-                    .Map(v => Task.FromResult<Either<L, R>>(v))
-                    .Reduce(ifNone);
-            })
-            .Unwrap();
+            .Either(
+                ifSome: o => Task.FromResult<Either<L, R>>(o),
+                ifNone: ifNone);
     }
 
     public static Task<Either<L, R>> Either<T, L, R>(
         this Task<Option<T>> option,
-        Func<T, Task<Either<L, R>>> some,
-        Func<Task<Either<L, R>>> none)
+        Func<T, Task<Either<L, R>>> ifSome,
+        Func<Task<Either<L, R>>> ifNone)
     {
         return option
             .ContinueWith(o =>
             {
                 return o.Result
-                    .Map(some)
-                    .Reduce(none);
+                    .Map(ifSome)
+                    .Reduce(() => ifNone());
             })
             .Unwrap();
     }

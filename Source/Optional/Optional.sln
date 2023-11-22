@@ -3,14 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optional", "Optional\Optional.csproj", "{94F3797B-9B4A-4E84-AF6F-2EC8046884C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Optional", "Optional\Optional.csproj", "{94F3797B-9B4A-4E84-AF6F-2EC8046884C9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F8DDAC3E-D3CC-4E42-8CDA-CA606B992398}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.build.props = Directory.build.props
+		..\..\README.md = ..\..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optional.Tests", "Optional.Tests\Optional.Tests.csproj", "{E6F329DB-C4F9-4A05-A041-4018AF006616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Optional.Tests", "Optional.Tests\Optional.Tests.csproj", "{E6F329DB-C4F9-4A05-A041-4018AF006616}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{25CA302C-7510-4670-87C9-8FA813BBAB37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +29,10 @@ Global
 		{E6F329DB-C4F9-4A05-A041-4018AF006616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6F329DB-C4F9-4A05-A041-4018AF006616}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6F329DB-C4F9-4A05-A041-4018AF006616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25CA302C-7510-4670-87C9-8FA813BBAB37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25CA302C-7510-4670-87C9-8FA813BBAB37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25CA302C-7510-4670-87C9-8FA813BBAB37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25CA302C-7510-4670-87C9-8FA813BBAB37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
