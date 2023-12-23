@@ -48,6 +48,16 @@ public static class OptionOperators
             : None<T>.Instance;
     }
 
+    public static Option<T> Do<T>(this Option<T> option, Action<T> action)
+    {
+        if(option is Some<T> some)
+        {
+            action(some);
+        }
+
+        return option;
+    }
+
     public static T Reduce<T>(
         this Option<T> option,
         Func<T> ifNone)
