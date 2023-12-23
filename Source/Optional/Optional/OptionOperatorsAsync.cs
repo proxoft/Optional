@@ -65,6 +65,27 @@ public static class OptionOperatorsAsync
             .Unwrap();
     }
 
+    public static Task<Option<T>> Do<T>(this Task<Option<T>> option, Action<T> action)
+    {
+        return option.ContinueWith(t => t.Result.Do(action));
+    }
+
+    public static Task<Option<T>> Do<T>(this Option<T> option, Func<T, Task> action)
+    {
+        return Task.FromResult(option).Do(action);
+    }
+
+    public static Task<Option<T>> Do<T>(this Task<Option<T>> option, Func<T, Task> action)
+    {
+        return option
+            .ContinueWith(t => {
+                return t.Result is Some<T> some
+                    ? action(some).ContinueWith(_ => t.Result)
+                    : Task.FromResult(t.Result);
+            })
+            .Unwrap();
+    }
+
     public static Task<T> Reduce<T>(
         this Task<Option<T>> option,
         Func<T> ifNone)
