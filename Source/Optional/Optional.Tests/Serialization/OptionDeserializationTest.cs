@@ -5,20 +5,18 @@ namespace Proxoft.Optional.Tests.Serialization;
 
 public class OptionDeserializationTest
 {
-    JsonSerializerOptions _options;
+    private readonly JsonSerializerOptions _options;
 
     public OptionDeserializationTest()
     {
         _options = new JsonSerializerOptions();
-        _options.Converters.Add(new OptionJsonConverter<decimal>());
-        _options.Converters.Add(new OptionJsonConverter<Foo>());
-        _options.Converters.Add(new OptionJsonConverter<decimal[]>());
+        _options.Converters.Add(new OptionJsonConverter());
     }
 
     [Fact]
     public void DeserializeSomeDecimal()
     {
-        string json = "{\"$optional\":\"some\",\"value\":3.14}";
+        string json = "{\"option\":\"some\",\"value\":3.14}";
         Option<decimal>? mayBe = JsonSerializer.Deserialize<Option<decimal>>(json, _options);
 
         mayBe
@@ -40,7 +38,7 @@ public class OptionDeserializationTest
     [Fact]
     public void DeserializeNoneDecimal()
     {
-        string json = "{\"$optional\":\"none\"}";
+        string json = "{\"option\":\"none\"}";
         Option<decimal>? mayBe = JsonSerializer.Deserialize<Option<decimal>>(json, _options);
 
         mayBe.Should().NotBeNull();
@@ -52,7 +50,7 @@ public class OptionDeserializationTest
     [Fact]
     public void DeserializeSomeFoo()
     {
-        string json = "{\"$optional\":\"some\",\"value\":{\"FooName\":\"Parent\",\"Child\":{\"FooName\":\"Child\",\"Child\":null}}}";
+        string json = "{\"option\":\"some\",\"value\":{\"FooName\":\"Parent\",\"Child\":{\"FooName\":\"Child\",\"Child\":null}}}";
 
         Option<Foo>? maybe = JsonSerializer.Deserialize<Option<Foo>>(json, _options);
 
@@ -88,7 +86,7 @@ public class OptionDeserializationTest
     [Fact]
     public void DeserializeSomeDecimalArray()
     {
-        string json = "{\"$optional\":\"some\",\"value\":[1.8,6.2,9.4]}";
+        string json = "{\"option\":\"some\",\"value\":[1.8,6.2,9.4]}";
 
         Option<decimal[]>? maybe = JsonSerializer.Deserialize<Option<decimal[]>>(json, _options);
 
