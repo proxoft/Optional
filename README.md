@@ -175,3 +175,56 @@ Either<string, Entity> TrySetValueAndSave(Either<string, Entity> entity)
 
 ```
 
+System.Text.Json serialization
+
+```csharp
+JsonSerializerOptions options = new();
+options.Converters.Add(new OptionJsonConverter());
+options.Converters.Add(new EitherJsonConverter());
+
+Option<int> maybeNumber = 25;
+Option<decima> maybeOtherNumber = None.Instance;
+
+string json1 = JsonSerialize.Serialize(mabeNumber, option);
+// returns
+// {
+//    "option": "some",
+//    "value": 25
+// }
+
+string json2 = JsonSerialize.Serialize(maybeOtherNumber, option);
+// returns
+// {
+//    "option": "none"
+// }
+
+Option<int> desMaybeNumber = JsonSerialize.Deserialize<Option<int>>(json1, option);
+// desMaybeNumber is Some<int>(25)
+
+Option<decima> desMaybeOtherNumber = JsonSerialize.Deserialize<Option<int>>(json2, option);
+// desMaybeNumber is None
+
+
+Either<string, int> stringOrInt = 49;
+string json3 = JsonSerialize.Serialize(mabeNumber, option);
+// returns
+// {
+//    "either": "right",
+//    "value": 49
+// }
+
+Either<string, decima> stringOrDecimal = "not a number";
+string json4 = JsonSerialize.Serialize(mabeNumber, option);
+// returns
+// {
+//    "either": "left",
+//    "value": "not a number"
+// }
+
+Either<string, int> desStringOrInt = JsonSerialize.Deserialize<Either<string, int>>(json3, option);
+// desStringOrInt == new Right<string, int>(49)
+
+Either<string, decimal> desStringOrDecimal = JsonSerialize.Deserialize<Either<string, int>>(json4, option);
+// desStringOrInt == new Left<string, int>("not a number")
+
+```
