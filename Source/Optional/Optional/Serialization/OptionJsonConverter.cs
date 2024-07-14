@@ -37,14 +37,6 @@ public class OptionJsonConverter : JsonConverterFactory
     }
 }
 
-file class OptionJsonConverterConstants
-{
-    public const string OptionPropertyName = "option";
-    public const string ValuePropertyName = "value";
-    public const string SomeTypeValue = "some";
-    public const string NoneTypeValue = "none";
-}
-
 file class OptionJsonConverter<T> : JsonConverter<Option<T>>
 {
     public override bool CanConvert(Type typeToConvert)
@@ -58,13 +50,13 @@ file class OptionJsonConverter<T> : JsonConverter<Option<T>>
 
     public override Option<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string optionalType = reader.ReadOptionType();
+        string optionalType = reader.ReadPropertyValueOfString("option");
 
         Option<T> result;
         switch (optionalType)
         {
             case "some":
-                reader.ReadValuePropertyToken();
+                reader.ReadPropertyToken("value");
                 T? value = JsonSerializer.Deserialize<T>(ref reader, options) ?? throw new Exception("value cannot be null");
                 result = value;
                 break;
@@ -84,64 +76,15 @@ file class OptionJsonConverter<T> : JsonConverter<Option<T>>
         writer.WriteStartObject();
         if (value is Some<T> some)
         {
-            writer.WriteString(OptionJsonConverterConstants.OptionPropertyName, OptionJsonConverterConstants.SomeTypeValue);
-            writer.WritePropertyName(OptionJsonConverterConstants.ValuePropertyName);
+            writer.WriteString("option", "some");
+            writer.WritePropertyName("value");
             T v = (T)some;
             JsonSerializer.Serialize(writer, v, options);
         }
         else
         {
-            writer.WriteString(OptionJsonConverterConstants.OptionPropertyName, OptionJsonConverterConstants.NoneTypeValue);
+            writer.WriteString("option", "none");
         }
         writer.WriteEndObject();
-    }
-}
-
-file static class ReaderExtensions
-{
-    public static string ReadOptionType(this ref Utf8JsonReader reader)
-    {
-        if(!reader.Read() || reader.TokenType != JsonTokenType.PropertyName)
-        {
-            throw new InvalidOperationException("Error reading json: expected token type property with name 'option'");
-        }
-
-        string propertyName = reader.GetString() ?? "";
-        if (propertyName != OptionJsonConverterConstants.OptionPropertyName)
-        {
-            throw new InvalidOperationException($"Error reading json: expected property name '{OptionJsonConverterConstants.OptionPropertyName}, but found {propertyName}'");
-        }
-
-        if (!reader.Read() || reader.TokenType != JsonTokenType.String)
-        {
-            throw new InvalidOperationException($"Error reading json: expected string token when reading property '{OptionJsonConverterConstants.OptionPropertyName}'");
-        }
-
-        string optionalType = reader.GetString() ?? "";
-        return optionalType;
-    }
-
-    public static void ReadValuePropertyToken(this ref Utf8JsonReader reader)
-    {
-        if (!reader.Read() || reader.TokenType != JsonTokenType.PropertyName)
-        {
-            throw new InvalidOperationException("Error reading token for property '$optional'");
-        }
-
-        string propertyName = reader.GetString() ?? "";
-        if (propertyName != "value")
-        {
-            throw new InvalidOperationException($"{propertyName} does not exist");
-        }
-
-        reader.Read();
-    }
-
-    public static void ReadEndToken(this ref Utf8JsonReader reader)
-    {
-        if(!reader.Read() || reader.TokenType != JsonTokenType.EndObject)
-        {
-            throw new InvalidOperationException("Expected EndObject token.");
-        }
     }
 }
